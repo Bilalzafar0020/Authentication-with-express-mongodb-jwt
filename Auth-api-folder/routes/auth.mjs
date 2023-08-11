@@ -6,6 +6,7 @@ import { ObjectId } from 'mongodb';
 
 import {  stringToHash,  varifyHash, validateHash  } from "bcrypt-inzi";  // increption for password
 
+import jwt  from  'jsonwebtoken';
 
 const id = new ObjectId ; //  unique id for documents 
 
@@ -111,6 +112,22 @@ try{
 
 
              if(varifingHash){
+
+ ////////////////////////////////////////////////////////////////////           
+////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////     jwt tokens
+
+   // const token = jwt.sign(  
+   //    {
+   //       isAdmin: false,
+   //       email: user.email,
+   //       id: user._id  
+   //    },
+   
+   // )
+
+
                 res.status(200).send('login successfull');
              }
              else{

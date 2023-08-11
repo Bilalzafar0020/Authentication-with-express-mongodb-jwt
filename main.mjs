@@ -31,6 +31,8 @@ app.use('/Auth-api-folder', mainrouter);
 
 app.use('/login', express.static(path.join(__dirname, 'public', 'login')));
 
+app.use('/post', express.static(path.join(__dirname, 'public', 'post')));
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
