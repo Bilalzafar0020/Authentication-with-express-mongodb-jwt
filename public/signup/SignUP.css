@@ -28,7 +28,7 @@ main.main{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 div.extra{
@@ -55,7 +55,7 @@ display: flex;
 flex-direction: column;
 background-color: #ffffff;
 width:22rem;
-    height: 29rem;
+    height: 23rem;
     border-radius: 8px;
 }
 

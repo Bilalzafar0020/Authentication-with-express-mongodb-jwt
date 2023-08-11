@@ -4,6 +4,9 @@ import express from 'express';
 
 import { ObjectId } from 'mongodb';
 
+import {  stringToHash,  varifyHash, validateHash  } from "bcrypt-inzi";  // increption for password
+
+
 const id = new ObjectId ; //  unique id for documents 
 
 const router = express.Router();
@@ -12,104 +15,116 @@ const router = express.Router();
 import {client} from '../../mongodb.mjs';
 
 const myDB = client.db("Database");
-const myColl = myDB.collection("practice");
+const myColl = myDB.collection("collection1");
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////  post http method
+/////////////////////////////////////    signup api 
 
 router.post('/signup', async (req, res, next) => {
-    try {
-      const { name, fatherName, gmail, country } = req.body;
-  
-      if (!name || !fatherName || !gmail || !country) {
-        res.status(403).send('All inputs are required' );  //  { message : 'All inputs are required'  use object in statues so that more message can be send
-        return;
-      }
-  
-      const newPost  = {
+
+       if( !req.body?.name || !req.body?.email || !req.body?.password){
+
+        res.status(403).send('required parameters missing');
+        return
+       }
+
+
+         req.body.email = req.body.email.toLowerCase();
+
+
+       try{
+ 
+       let user = await myColl.findOne( { email : req.body.email });           
+
+        if(!user){  //  user not  exist 
+
+ let { name , email , password} = req.body;
+
+/////////////////////////////////////////////         stringTOHash ( increption)
+            let hasedPassword = await stringToHash(password);
+
+
+         
+
+       let data = {
         name,
-        fatherName,
-        gmail,
-        country
-      } 
-      
+        email,
+        hasedPassword,
+        createdOn: new Date()
+       }
 
-      const databaseInsertion  = await myColl.insertOne(newPost);
- console.log(databaseInsertion);
- console.log('console ID ',databaseInsertion.insertedId);
+          let insertingData = await myColl.insertOne( data)
 
-//   here is the code for adding  many documents  
+           console.log('inserted :', insertingData);
+             console.log( ' id of data' , id);
+             
+        res.status(200).send('Signup successfull')
 
-/*
-      const newPost  = [
-       { name,
-        fatherName,
-        gmail,
-        country },
-        { name,
-          fatherName,
-          gmail,
-          country },
-          { name,
-            fatherName,
-            gmail,
-            country },
-    
-            { name,
-              fatherName,
-              gmail,
-              country },
-      ]
-        
+        }
+       else{ //  user already exist
+          res.status(403).send('User already exist with this email ');
+       }       
 
-      and also like that in the insertMany parameter 
-  const databaseInsertion  = await myColl.insertMany([
-    {
-    name,
-    fatherName,
-    gmail,
-    country
-   },
-    {
-    name,
-    fatherName,
-    gmail,
-    country
-   },
+       }
 
-    {
-    name,
-    fatherName,
-    gmail,
-    country
-   }
-  ]);
-
-
-      const databaseInsertion  = await myColl.insertMany(newPost);
- console.log(databaseInsertion);
- console.log('console ID ',databaseInsertion.insertedIds);
-
-
-*/
-
+    catch(e){
+        res.status(500).send('please try again');
     }
-      catch (error) {
-        console.error('Error adding post:', error);
-        res.status(500).send('An error occurred while adding the post ');
-      }
-    });
+
+
+     });
 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////// get  http method
+///////////////////////   login api 
+
+router.post('/login', async (req,res,next)=>{
+
+    if(  !req.body?.email || !req.body?.password){
+      res.status(403).send('required parameters missing');
+
+      return
+    }
+
+           req.body.email = req.body.email.toLowerCase();
 
 
+try{
+
+    let user = await myColl.findOne( {email : req.body.email} );
+
+      if( !user){   // user is not present 
+             
+           res.status(401).send('email or password is incorrect');
+            return;
+      }     
+         else{    // user is found 
+              
+
+/////////////////////////////////////////////  varifyHash(user now given password, signup time password)
+            let varifingHash = varifyHash(req.body.password, user.password);
+
+
+             if(varifingHash){
+                res.status(200).send('login successfull');
+             }
+             else{
+                res.status(401).send('email or password is incorrect');
+             }
+
+         }
+
+    }
+catch (e){
+   res.status(500).send('please try again');
+}
+
+}  )
 
 
 
