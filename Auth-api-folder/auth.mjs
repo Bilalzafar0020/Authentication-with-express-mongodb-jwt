@@ -13,7 +13,7 @@ const id = new ObjectId ; //  unique id for documents
 const router = express.Router();
 
 
-import {client} from '../../mongodb.mjs';
+import {client} from '../mongodb.mjs';
 
 const myDB = client.db("Database");
 const myColl = myDB.collection("collection1");
@@ -116,17 +116,33 @@ try{
  ////////////////////////////////////////////////////////////////////           
 ////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////     jwt tokens
+// jwt token making payload => parameter => payload(in a object), secure key(to decode it later )
+//  ,{ extra options like expiry date etc} 
 
-   // const token = jwt.sign(  
-   //    {
-   //       isAdmin: false,
-   //       email: user.email,
-   //       id: user._id  
-   //    },
-   
-   // )
 
+
+      const  token = jwt.sign({ 
+          email : req.body.email,
+          name : user.name,
+          id : user._id
+       }, process.env.SECRET);// ,{ expiresIn: '1h' } in option we can provide expiry date of this token
+
+
+
+
+  
+ ////////////////////////////////////////////////////////////////////           
+////////////////////////////////////////////////////////////////////
+// to store token in a cookie(becuase of it's httponly and secure thinks ) res.cookie is a 
+//  express method(present in express website ) . yes we can also save it in a database also      
+
+
+
+     res.cookie('token',token ,{
+         httpOnly : true,
+         secure : true
+          // expires: new Date(dateAfter2MinInMili)
+      } )
 
                 res.status(200).send('login successfull');
              }
@@ -145,14 +161,4 @@ catch (e){
 
 
 
-
-
-
-
-
-
-
-
 export default router;
-
-
