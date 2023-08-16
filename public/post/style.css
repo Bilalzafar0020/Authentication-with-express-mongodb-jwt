@@ -1,0 +1,51 @@
+h1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bolder;
+    text-transform: capitalize;
+}
+
+.alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23%;
+    padding: 10px;
+    background-color: #4beb2b;
+    color: #000000;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.5s;
+    border-radius: 5px;
+    z-index: 9999;
+  }
+  
+  .alert.hide {
+    opacity: 0;
+  }
+
+  div.button{
+     display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;
+  }
+#logout{
+  font-size: 18px;
+  font-weight: 550;
+  text-transform: capitalize;  
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #0353ff;
+  color: #ffffff;
+  width: 5.7rem;
+  height: 30px;
+  border-radius: 8px;
+}
+

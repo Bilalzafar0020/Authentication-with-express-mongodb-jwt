@@ -1,5 +1,5 @@
 
-# Authentication/Login-Signup API using Express.js, MongoDB, and JWT
+# Authentication/Login-Signup-Logout API using Express.js, MongoDB, and JWT
 
 This repository contains an authentication/login-signup-logout API created using Express.js, MongoDB, and JWT (JSON Web Token). You can use this API to implement user authentication and registration in your applications.
 

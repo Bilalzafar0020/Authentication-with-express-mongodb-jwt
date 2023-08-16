@@ -16,9 +16,25 @@ app.use(express.json());//body parser
 app.use(cors());
 app.use(cookieParser());  // cookie parser
 
+
+
 // Using the router
 app.use('/Auth-api-folder', mainrouter);
 
+
+//  used ['/sigup','/'] so that when user came to root or /signup the same page diaplayed ( this is because for front end urls)
+ app.use(['/signup','/'], express.static(path.join(__dirname, 'public', 'signup')));
+
+app.use('/login', express.static(path.join(__dirname, 'public', 'login')));
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+//   (1)  we can make function of it and use it where we want token verification( protective routes) 
+//  (2) also we can make a seperate file where we use this verification and export it then 
+//  use it before the routes where we want to use it 
 
 
   app.use( (req,res,next) =>{  //   jwt token verification 
@@ -47,12 +63,7 @@ app.use('/Auth-api-folder', mainrouter);
 
 
 
-
-//  used ['/sigup','/'] so that when user came to root or /signup the same page diaplayed ( this is because for front end urls)
- app.use(['/signup','/'], express.static(path.join(__dirname, 'public', 'signup')));
-
-app.use('/login', express.static(path.join(__dirname, 'public', 'login')));
-
+//  protective route 
 app.use('/post', express.static(path.join(__dirname, 'public', 'post')));
 
 
