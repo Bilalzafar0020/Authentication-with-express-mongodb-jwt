@@ -55,7 +55,7 @@ app.use('/login', express.static(path.join(__dirname, 'public', 'login')));
         next();
       } 
       catch{
-        res.status(403).send('please provide correct email and password');
+        res.status(403).send('please login/signup first');
       }
 
 
