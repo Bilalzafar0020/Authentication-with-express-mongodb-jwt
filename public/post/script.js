@@ -64,9 +64,9 @@ button.addEventListener('click', ()=>{
 
    } )
 
-   .catch(()=>{
+   .catch((error)=>{
 
-  showAlert('Logout failed, PLease try again');
+  showAlert(error.response.data);
    })
 
 

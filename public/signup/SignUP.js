@@ -58,8 +58,8 @@ e.preventDefault();
 
 
        axios.post('/Auth-api-folder/signup', whole )
-    .then( ()=>{
-        showAlert('Signup successful');
+    .then( (response)=>{
+        showAlert(response.data);
                   
      
 setTimeout(() => {
@@ -69,9 +69,9 @@ setTimeout(() => {
     })   
 
 
-    .catch( ()=>{
+    .catch( (error)=>{
 
-      showAlert('signup failed , Please try again');
+      showAlert(error.response.data);
       
       } )
       

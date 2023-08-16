@@ -51,9 +51,9 @@ let whole = {
 
 axios.post('/Auth-api-folder/login',whole )
 
-.then( ()=>{
+.then( (response)=>{
 
-showAlert('Login successful');
+showAlert(response.data);
 
 setTimeout(() => {
   window.location.href = '/post';
@@ -62,9 +62,9 @@ setTimeout(() => {
 
 })
 
-.catch( ()=>{
+.catch( (error)=>{
 
-showAlert('Login failed , Please try again');
+showAlert(error.response.data);
 
 } )
 
