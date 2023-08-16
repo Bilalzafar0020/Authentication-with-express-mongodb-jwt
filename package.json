@@ -5,7 +5,7 @@
   "main": "main.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "main.mjs",
+    "start": "node main.mjs",
     "dev": "nodemon main.mjs"
   },
   "author": "",
